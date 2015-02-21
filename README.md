@@ -1,1 +1,1 @@
-# microservices-hackathon-february-2015
+Code composed during the February 2015 Microservices Hackathon in London.
