@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: robot_arena_player_development
+
+test:
+  <<: *default
+  database: robot_arena_player_test
+  
+production:
+  <<: *default
+  database: robot_arena_player_production
+  username: robot_arena_player
+  password: <%= ENV['ROBOT_ARENA_PLAYER_DATABASE_PASSWORD'] %>
