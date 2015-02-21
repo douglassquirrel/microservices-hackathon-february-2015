@@ -1,0 +1,11 @@
+{
+  "name": "microservices-hackathon-february-2015-momentum-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Kirill Korolyov <kirill.korolyov@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.3.0",
+    "request": "^2.53.0"
+  }
+}
