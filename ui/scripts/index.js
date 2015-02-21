@@ -2,8 +2,7 @@
 (function(){
   var combo, clockElem, boardSize, cellSize, rightMargin, legendPos, arenaElem, paper, testData, drawLine, robotColors, nextColor, idsToColor, getRobotColor, draw;
   combo = new Combo("http://52.16.7.112:8000");
-  combo.use(["state", "ArenaClock"]);
-  combo.listen("state", function(data){});
+  combo.use(["playerCoordinates", "ArenaClock"]);
   clockElem = document.getElementById("clock");
   combo.listen("ArenaClock", function(data){
     return clockElem.replaceChild(document.createTextNode(data.tick), clockElem.firstChild);
@@ -16,7 +15,7 @@
   paper = Raphael(400, 100, boardSize[0] * cellSize + 1 + rightMargin, boardSize[1] * cellSize + 1);
   paper.setViewBox(-0.5, -0.5, boardSize[0] * cellSize + 1 + rightMargin, boardSize[1] * cellSize + 1);
   testData = {
-    "moves": [
+    "positions": [
       {
         "id": "player1",
         "coordinates": [1, 1]
@@ -57,7 +56,7 @@
       y = i$;
       drawLine(0, y * cellSize, boardSize[0] * cellSize, y * cellSize);
     }
-    for (i$ = 0, len$ = (ref$ = data.moves).length; i$ < len$; ++i$) {
+    for (i$ = 0, len$ = (ref$ = data.positions).length; i$ < len$; ++i$) {
       index = i$;
       robot = ref$[i$];
       pos = robot.coordinates;
@@ -72,6 +71,6 @@
     }
     return results$;
   };
-  combo.listen("state", draw);
+  combo.listen("playerCoordinates", draw);
   draw(testData);
 }).call(this);
