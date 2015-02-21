@@ -2,9 +2,7 @@
 # "http://52.16.7.112:8000"
 combo = new Combo("http://52.16.7.112:8000")
 
-combo.use ["state", "ArenaClock"]
-
-combo.listen "state", (data) ->
+combo.use ["playerCoordinates", "ArenaClock"]
 
 
 clockElem = document.getElementById("clock")
@@ -22,7 +20,7 @@ paper = Raphael(400, 100, boardSize.0*cellSize+1 + rightMargin, boardSize.1*cell
 paper.setViewBox(-0.5, -0.5, boardSize.0*cellSize+1 + rightMargin, boardSize.1*cellSize+1)
 
 testData = {
-	"moves": [
+	"positions": [
 		{
 		"id": "player1",
 		"coordinates": [
@@ -78,7 +76,7 @@ draw = (data) ->
 	for y to boardSize.1
 		drawLine(0, y*cellSize, boardSize.0*cellSize, y*cellSize)
 
-	for robot, index in data.moves
+	for robot, index in data.positions
 		pos = robot.coordinates
 		console.log pos
 		color = getRobotColor(robot.id)
@@ -86,5 +84,5 @@ draw = (data) ->
 		paper.rect(legendPos.0, index*2*cellSize, cellSize, cellSize).attr("fill", color)
 		paper.text(legendPos.0 + 1.5*cellSize, (index*2+0.5)*cellSize, robot.id).attr({"font-size": "16px", "text-anchor": "start"})
 
-combo.listen "state", draw
+combo.listen "playerCoordinates", draw
 draw(testData)
