@@ -24,7 +24,7 @@
   drawLine = function(x0, y0, x1, y1){
     return paper.path("M" + x0 + " " + y0 + "L" + x1 + " " + y1);
   };
-  robotColors = ['#f00', '#0f0', '#00f', '#f0f', '#0ff', '#f0f'];
+  robotColors = ['#f00', '#0f0', '#00f', '#f0f', '#0ff', '#f0f', '#f80', '#0f8', '#80f', '#f08', '#8f0', '#08f'];
   nextColor = 0;
   idsToColor = {};
   getRobotColor = function(id){
