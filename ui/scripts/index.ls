@@ -10,3 +10,7 @@ combo.listen "state", (data) ->
 clockElem = document.getElementById("clock")
 combo.listen "ArenaClock", (data) ->
 	clockElem.replaceChild(document.createTextNode(data.tick), clockElem.firstChild)
+
+arenaElem = document.getElementById("arena")
+combo.listen "state", (data) ->
+	arenaElem.textContent = JSON.stringify(data, null, "  ")
