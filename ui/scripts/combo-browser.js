@@ -59,7 +59,9 @@
       return this.request('POST', "/topics/" + topic_name + "/subscriptions", null, null, callback);
     };
     prototype.next = function(topic_name, subscription_id, timeout, callback){
-      return this.request('GET', "/topics/" + topic_name + "/subscriptions/" + subscription_id + "/next", null, null, callback);
+      return this.request('GET', "/topics/" + topic_name + "/subscriptions/" + subscription_id + "/next", {
+        "Patience": timeout
+      }, null, callback);
     };
     prototype.use = function(topic_names){
       var i$, len$, results$ = [];
