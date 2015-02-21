@@ -44,7 +44,9 @@ function onState (state) {
     _.each(state.positions, function (newPlayer) {
         var player = getPlayer(newPlayer.id);
         if (player) {
-            player.lastCoordinates = newPlayer.coordinates;
+            // player.lastCoordinates = newPlayer.coordinates;
+        } else {
+            addPlayer(newPlayer);
         }
     });
 }
