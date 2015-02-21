@@ -1,0 +1,11 @@
+== README
+
+## Run
+
+Run rails server:
+
+    bundle exec rails s
+
+Check it in the browser:
+
+    http://localhost:3000
