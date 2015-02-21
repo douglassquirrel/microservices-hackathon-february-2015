@@ -7,19 +7,21 @@ function getPlayer (id) {
     return players[id];
 }
 
-function onJoin (event) {
+function addPlayer (event) {
     var player = {};
     player.id = event.id;
     player.direction = [0, 0];
     player.lastCoordinates = event.coordinates || [0, 0];
     players[player.id] = player;
+    return player;
 }
 
 function onPlayerMove (event) {
     var player = players[event.id];
-    if (player) {
-        player.direction = event.direction;
+    if (!player) {
+        player = addPlayer(event);
     }
+    player.direction = event.direction;
 }
 
 function onTick (event) {
@@ -39,18 +41,12 @@ function onTick (event) {
 }
 
 function onState (state) {
-    var newState = _.indexBy(state.moves, 'id');
-
-    players = _.chain(players)
-    .filter(function (player) {
-        return newState[player.id];
-    })
-    .map(function (player) {
-        player.lastCoordinates = newState[player.id].coordinates;
-        return player;
-    })
-    .indexBy('id')
-    .value();
+    _.each(state.positions, function (newPlayer) {
+        var player = getPlayer(newPlayer.id);
+        if (player) {
+            player.lastCoordinates = newPlayer.coordinates;
+        }
+    });
 }
 
 function updatePlayerCoordinates (player) {
@@ -60,5 +56,5 @@ function updatePlayerCoordinates (player) {
 
 api.subscribe('ArenaClock', onTick);
 api.subscribe('playerMove', onPlayerMove);
-api.subscribe('playerJoin', onJoin);
-// api.subscribe('validPlayerCoordinates', onState);
+api.subscribe('playerJoin', addPlayer);
+api.subscribe('validPlayerCoordinates', onState);
