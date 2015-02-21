@@ -2,7 +2,9 @@
 # "http://52.16.7.112:8000"
 combo = new Combo("http://52.16.7.112:8000")
 
-combo.use ["playerCoordinates", "ArenaClock"]
+arenaSource = "validPlayerCoordinates"
+
+combo.use [arenaSource, "ArenaClock"]
 
 
 clockElem = document.getElementById("clock")
@@ -84,5 +86,5 @@ draw = (data) ->
 		paper.rect(legendPos.0, index*2*cellSize, cellSize, cellSize).attr("fill", color)
 		paper.text(legendPos.0 + 1.5*cellSize, (index*2+0.5)*cellSize, robot.id).attr({"font-size": "16px", "text-anchor": "start"})
 
-combo.listen "playerCoordinates", draw
+combo.listen arenaSource, draw
 draw(testData)
