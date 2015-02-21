@@ -3,8 +3,9 @@
 combo = new Combo("http://52.16.7.112:8000")
 
 arenaSource = "validPlayerCoordinates"
+scoreSource = "LeaderBoard"
 
-combo.use [arenaSource, "ArenaClock"]
+combo.use [arenaSource, scoreSource, "ArenaClock"]
 
 
 clockElem = document.getElementById("clock")
@@ -21,31 +22,10 @@ arenaElem = document.getElementById("arena")
 paper = Raphael(400, 100, boardSize.0*cellSize+1 + rightMargin, boardSize.1*cellSize+1)
 paper.setViewBox(-0.5, -0.5, boardSize.0*cellSize+1 + rightMargin, boardSize.1*cellSize+1)
 
-testData = {
-	"positions": [
-		{
-		"id": "player1",
-		"coordinates": [
-		1,
-		1
-		]
-		},
-		{
-		"id": "player2",
-		"coordinates": [
-		10,
-		10
-		]
-		},
-		{
-		"id": "player3",
-		"coordinates": [
-		15,
-		15
-		]
-		}
-	]
+currentData = {
+	"positions": []
 }
+currentScores = {}
 
 drawLine = (x0, y0, x1, y1) ->
 	paper.path("M" + x0 + " " + y0 + "L" + x1 + " " + y1)
@@ -66,7 +46,8 @@ getRobotColor = (id) ->
 		idsToColor[id] = robotColors[nextColor++ % *]
 	idsToColor[id]
 
-draw = (data) ->
+update = ->
+	data = currentData
 	arenaElem.textContent = JSON.stringify(data, null, "  ")
 
 	paper.clear()
@@ -82,9 +63,18 @@ draw = (data) ->
 		pos = robot.coordinates
 		console.log pos
 		color = getRobotColor(robot.id)
+		score = currentScores[robot.id] || 0
 		paper.rect(pos.0*cellSize, pos.1*cellSize, cellSize, cellSize).attr("fill", color)
 		paper.rect(legendPos.0, index*2*cellSize, cellSize, cellSize).attr("fill", color)
-		paper.text(legendPos.0 + 1.5*cellSize, (index*2+0.5)*cellSize, robot.id).attr({"font-size": "16px", "text-anchor": "start"})
+		paper.text(legendPos.0 + 1.5*cellSize, (index*2+0.5)*cellSize, robot.id + "    (#score)").attr({"font-size": "16px", "text-anchor": "start"})
 
-combo.listen arenaSource, draw
-draw(testData)
+combo.listen arenaSource, (data) ->
+	currentData := data
+	update()
+
+combo.listen scoreSource, (scores) ->
+	console.dir scores
+	currentScores := scores.scores
+	update()
+
+update()
