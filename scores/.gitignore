@@ -1,0 +1,7 @@
+vendor/
+*.swp
+composer.*
+composer/
+guzzle/
+slim/
+symfony/
